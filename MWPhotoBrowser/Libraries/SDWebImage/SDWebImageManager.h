@@ -67,6 +67,7 @@ typedef NSString *(^CacheKeyFilter)(NSURL *url);
 @property (strong) CacheKeyFilter cacheKeyFilter;
 #endif
 
+- (NSString *)cacheKeyForURL:(NSURL *)url;
 
 /**
  * Returns global SDWebImageManager instance.
