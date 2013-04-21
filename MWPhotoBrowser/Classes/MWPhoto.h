@@ -21,14 +21,14 @@
 @property (nonatomic, retain) NSString *caption;
 
 // Class
-+ (MWPhoto *)photoWithImage:(UIImage *)image;
-+ (MWPhoto *)photoWithFilePath:(NSString *)path;
-+ (MWPhoto *)photoWithURL:(NSURL *)url;
++ (MWPhoto *)photoWithImage:(UIImage *)image andId:(NSString*)identifier;
++ (MWPhoto *)photoWithFilePath:(NSString *)path andId:(NSString*)identifier;
++ (MWPhoto *)photoWithURL:(NSURL *)url andId:(NSString*)identifier;
 
 // Init
-- (id)initWithImage:(UIImage *)image;
-- (id)initWithFilePath:(NSString *)path;
-- (id)initWithURL:(NSURL *)url;
+- (id)initWithImage:(UIImage *)image andId:(NSString*)identifier;
+- (id)initWithFilePath:(NSString *)path andId:(NSString*)identifier;
+- (id)initWithURL:(NSURL *)url andId:(NSString*)identifier;
 
 @end
 

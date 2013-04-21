@@ -11,6 +11,7 @@
 #import "MWPhoto.h"
 #import "MWPhotoProtocol.h"
 #import "MWCaptionView.h"
+#import "MWZoomingScrollView.h"
 
 // Debug Logging
 #if 0 // Set to 1 to enable debug logging
@@ -29,7 +30,14 @@
 @end
 
 // MWPhotoBrowser
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> 
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
+
+@protected
+    UIToolbar *_toolbar;
+    UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
+    UIActionSheet *_actionsSheet;
+
+}
 
 // Properties
 @property (nonatomic) BOOL displayActionButton;
@@ -43,6 +51,27 @@
 
 // Set page that photo browser starts on
 - (void)setInitialPageIndex:(NSUInteger)index;
+
+// Override this if you want a custom toolbar
+- (void)setupToolbar;
+
+// Custom zooming pages
+- (void)configurePage:(MWZoomingScrollView *)page forIndex:(NSUInteger)index;
+
+- (NSUInteger)numberOfPhotos;
+- (NSUInteger)currentIndex;
+- (UIActionSheet*)showActionSheet:(UIActionSheet*)actionSheet invokedFromButton:(UIBarButtonItem*)sender;
+- (id<MWPhoto>)photoAtIndex:(NSUInteger)index;
+
+// Controls
+- (void)cancelControlHiding;
+- (void)hideControlsAfterDelay;
+- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent;
+- (void)toggleControls;
+- (BOOL)areControlsHidden;
+
+- (NSArray*)getActionSheetItems;
+- (void)actionSheetItemTapped:(NSUInteger)index;
 
 @end
 

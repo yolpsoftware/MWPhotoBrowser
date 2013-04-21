@@ -20,13 +20,14 @@
     UIImage *_underlyingImage;
 
     // Other
-    NSString *_caption;
+    NSString *_caption, *_id;
     BOOL _loadingInProgress;
         
 }
 
 // Properties
 @property (nonatomic, retain) UIImage *underlyingImage;
+@property (nonatomic, retain) NSString *identifier;
 
 // Methods
 - (void)imageDidFinishLoadingSoDecompress;
@@ -38,56 +39,64 @@
 @implementation MWPhoto
 
 // Properties
-@synthesize underlyingImage = _underlyingImage, 
-caption = _caption;
+@synthesize underlyingImage = _underlyingImage,
+caption = _caption,
+identifier = _id;
 
 #pragma mark Class Methods
 
-+ (MWPhoto *)photoWithImage:(UIImage *)image {
-	return [[[MWPhoto alloc] initWithImage:image] autorelease];
++ (MWPhoto *)photoWithImage:(UIImage *)image andId:(NSString*)identifier {
+    return [[[MWPhoto alloc] initWithImage:image andId:identifier] autorelease];
 }
 
-+ (MWPhoto *)photoWithFilePath:(NSString *)path {
-	return [[[MWPhoto alloc] initWithFilePath:path] autorelease];
++ (MWPhoto *)photoWithFilePath:(NSString *)path andId:(NSString*)identifier {
+    return [[[MWPhoto alloc] initWithFilePath:path andId:identifier] autorelease];
 }
 
-+ (MWPhoto *)photoWithURL:(NSURL *)url {
-	return [[[MWPhoto alloc] initWithURL:url] autorelease];
++ (MWPhoto *)photoWithURL:(NSURL *)url andId:(NSString*)identifier {
+    return [[[MWPhoto alloc] initWithURL:url andId:identifier] autorelease];
 }
 
 #pragma mark NSObject
 
-- (id)initWithImage:(UIImage *)image {
-	if ((self = [super init])) {
-		self.underlyingImage = image;
-	}
-	return self;
+- (id)initWithImage:(UIImage *)image andId:(NSString*)identifier {
+    if ((self = [super init])) {
+        self.underlyingImage = image;
+        self.identifier = identifier;
+    }
+    return self;
 }
 
-- (id)initWithFilePath:(NSString *)path {
-	if ((self = [super init])) {
-		_photoPath = [path copy];
-	}
-	return self;
+- (id)initWithFilePath:(NSString *)path andId:(NSString*)identifier {
+    if ((self = [super init])) {
+        _photoPath = [path copy];
+        self.identifier = identifier;
+    }
+    return self;
 }
 
-- (id)initWithURL:(NSURL *)url {
-	if ((self = [super init])) {
-		_photoURL = [url copy];
-	}
-	return self;
+- (id)initWithURL:(NSURL *)url andId:(NSString*)identifier {
+    if ((self = [super init])) {
+        _photoURL = [url copy];
+        self.identifier = identifier;
+    }
+    return self;
 }
 
 - (void)dealloc {
     [_caption release];
     [[SDWebImageManager sharedManager] cancelForDelegate:self];
-	[_photoPath release];
-	[_photoURL release];
-	[_underlyingImage release];
-	[super dealloc];
+    [_photoPath release];
+    [_photoURL release];
+    [_underlyingImage release];
+    [super dealloc];
 }
 
 #pragma mark MWPhoto Protocol Methods
+
+- (NSString *)identifier {
+    return _id;
+}
 
 - (UIImage *)underlyingImage {
     return _underlyingImage;
