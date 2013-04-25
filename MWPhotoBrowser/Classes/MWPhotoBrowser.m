@@ -240,12 +240,16 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     _nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/UIBarButtonItemArrowRight.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
     _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
 
+    _overlayView = [[UIView alloc] initWithFrame:CGRectMake(210, 40, 120, 100)];
+    _overlayView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    [self.view addSubview:_overlayView];
+
     // Update
     [self reloadData];
-    
+
 	// Super
     [super viewDidLoad];
-	
+
 }
 
 - (void)setupToolbar {
@@ -936,14 +940,20 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     CGFloat alpha = hidden ? 0 : 1;
 	[self.navigationController.navigationBar setAlpha:alpha];
 	[_toolbar setAlpha:alpha];
+    [_overlayView setAlpha:alpha];
     for (UIView *v in captionViews) v.alpha = alpha;
 	if (animated) [UIView commitAnimations];
-	
+
 	// Control hiding timer
 	// Will cancel existing timer but only begin hiding if
 	// they are visible
 	if (!permanent) [self hideControlsAfterDelay];
-	
+
+}
+
+- (void)resetControlHidingTimer {
+    [self cancelControlHiding];
+    [self hideControlsAfterDelay];
 }
 
 - (void)cancelControlHiding {

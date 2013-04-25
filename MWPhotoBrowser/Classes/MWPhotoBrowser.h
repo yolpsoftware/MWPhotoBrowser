@@ -36,6 +36,7 @@
     UIToolbar *_toolbar;
     UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
     UIActionSheet *_actionsSheet;
+    UIView *_overlayView;
 
 }
 
@@ -66,12 +67,15 @@
 // Controls
 - (void)cancelControlHiding;
 - (void)hideControlsAfterDelay;
+- (void)resetControlHidingTimer;
 - (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent;
 - (void)toggleControls;
 - (BOOL)areControlsHidden;
 
 - (NSArray*)getActionSheetItems;
 - (void)actionSheetItemTapped:(NSUInteger)index;
+
+- (void)didStartViewingPageAtIndex:(NSUInteger)index;
 
 @end
 
